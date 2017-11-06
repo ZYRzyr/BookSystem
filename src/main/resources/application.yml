@@ -10,6 +10,5 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
-#      TODO 测试用例完成之后，修改为update
+      ddl-auto: update
     show-sql: true
