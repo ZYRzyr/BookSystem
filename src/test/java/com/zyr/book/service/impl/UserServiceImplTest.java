@@ -5,7 +5,6 @@ import com.zyr.book.enums.ApiErrorType;
 import com.zyr.book.exception.UserException;
 import com.zyr.book.repository.UserRepository;
 import com.zyr.book.service.UserService;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

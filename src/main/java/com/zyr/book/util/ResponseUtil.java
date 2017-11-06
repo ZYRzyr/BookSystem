@@ -17,6 +17,14 @@ public class ResponseUtil {
         return success(message, null);
     }
 
+    public static Response success(Object data) {
+        Response response = new Response();
+        response.setCode(0);
+        response.setMessage("成功");
+        response.setData(data);
+        return response;
+    }
+
     public static Response error(ApiErrorType apiErrorType) {
         Response response = new Response();
         response.setCode(apiErrorType.getCode());
