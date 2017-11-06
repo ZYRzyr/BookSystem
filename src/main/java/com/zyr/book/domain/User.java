@@ -1,27 +1,33 @@
 package com.zyr.book.domain;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-public class User {
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "book"})})
+public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
-    @Column(unique = true)
+    @NotNull
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "USER_BOOK", joinColumns = {
-            @JoinColumn(name = "USER_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
-            @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")})
-    private Set<Book> books;
+    @NotNull
+    private String book;
 
     public User() {
-        books = new HashSet<>();
+    }
+
+    public User(Integer id) {
+        this.id = id;
+    }
+
+    public User(String name, String book) {
+        this.name = name;
+        this.book = book;
     }
 
     public Integer getId() {
@@ -40,12 +46,12 @@ public class User {
         this.name = name;
     }
 
-    public Set<Book> getBooks() {
-        return books;
+    public String getBook() {
+        return book;
     }
 
-    public void setBooks(Set<Book> books) {
-        this.books = books;
+    public void setBook(String book) {
+        this.book = book;
     }
 
     @Override
@@ -53,7 +59,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", books=" + books +
+                ", book='" + book + '\'' +
                 '}';
     }
 }

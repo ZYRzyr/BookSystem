@@ -1,12 +1,13 @@
 package com.zyr.book.service;
 
-import com.zyr.book.domain.Book;
 import com.zyr.book.domain.User;
 
-import java.util.Set;
+import java.util.Map;
 
 public interface UserService {
-    User insertUser(User user);
+    User insertUser(String name, String book);
 
-    Set<Book> findBookByUserName(String name);
+    Map<Integer, String> findBookByName(String name) throws Exception;
+
+    void deleteUserById(int id);
 }
