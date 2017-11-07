@@ -7,7 +7,9 @@ import java.util.List;
 public interface UserService {
     User insertUser(String name, String book);
 
-    List<User> findBookByName(String name) throws Exception;
+    List<User> findByName(String name) throws Exception;
 
     void deleteUserById(int id);
+
+    void modifyName(String originName, String newName);
 }

@@ -39,7 +39,7 @@ public class UserServiceImplTest {
 
     @Test
     public void testFindBookByName() throws Exception {
-        List<User> books = userService.findBookByName("小张");
+        List<User> books = userService.findByName("小张");
         assertEquals("书1", books.get(0).getBook());
     }
 
@@ -47,7 +47,7 @@ public class UserServiceImplTest {
     public void testFindBookByNameWithException() throws Exception {
         thrown.expect(UserException.class);
         thrown.expectMessage(ApiErrorType.EMPTY_BOOK.getMessage());
-        userService.findBookByName("小王");
+        userService.findByName("小王");
     }
 
     @Test
@@ -56,5 +56,10 @@ public class UserServiceImplTest {
         userService.deleteUserById(1);
         int after = userRepository.findAll().size();
         assertEquals(before - 1, after);
+    }
+
+    @Test
+    public void testModifyName() throws Exception {
+        userService.modifyName("小张", "小王");
     }
 }

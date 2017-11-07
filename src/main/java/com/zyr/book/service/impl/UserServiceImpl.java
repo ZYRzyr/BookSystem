@@ -16,8 +16,12 @@ import java.util.List;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User insertUser(String name, String book) {
@@ -33,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findBookByName(String name) throws Exception {
+    public List<User> findByName(String name) throws Exception {
         List<User> users = userRepository.findByName(name);
         if (users.isEmpty()) {
             throw new UserException(ApiErrorType.EMPTY_BOOK);
@@ -45,5 +49,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(int id) {
         userRepository.delete(new User(id));
+    }
+
+    @Override
+    public void modifyName(String originName, String newName) {
+        List<User> users = userRepository.findByName(originName);
+        if (users.isEmpty()) {
+            throw new UserException(ApiErrorType.EMPTY_USER);
+        }
+
+        userRepository.updateName(originName, newName);
     }
 }
