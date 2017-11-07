@@ -1,7 +1,5 @@
 package com.zyr.book.controller;
 
-import com.zyr.book.enums.ApiErrorType;
-import com.zyr.book.exception.UserException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -32,7 +30,7 @@ public class UserControllerTest {
                 .param("book", "一本书A"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
-                        .string("{\"code\":0,\"data\":{\"id\":1,\"name\":\"用户A\",\"book\":\"一本书A\"},\"message\":\"添加成功!\"}"))
+                        .string("{\"id\":1,\"name\":\"用户A\",\"book\":\"一本书A\"}"))
         ;
     }
 }
