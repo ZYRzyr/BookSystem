@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/show")
-    public Map<Integer, String> show(String name) throws Exception {
+    public List<User> show(String name) throws Exception {
         return userService.findBookByName(name);
     }
 }

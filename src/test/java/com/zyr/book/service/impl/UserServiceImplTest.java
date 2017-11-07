@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Map;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -39,11 +39,8 @@ public class UserServiceImplTest {
 
     @Test
     public void testFindBookByName() throws Exception {
-        Map<Integer, String> books = userService.findBookByName("小张");
-        for (int id : books.keySet()) {
-            assertEquals(1, id);
-            assertEquals("书1", books.get(id));
-        }
+        List<User> books = userService.findBookByName("小张");
+        assertEquals("书1", books.get(0).getBook());
     }
 
     @Test

@@ -35,17 +35,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<Integer, String> findBookByName(String name) throws Exception {
+    public List<User> findBookByName(String name) throws Exception {
         List<User> users = userRepository.findByName(name);
         if (users.isEmpty()) {
             throw new UserException(ApiErrorType.EMPTY_BOOK);
         }
 
-        Map<Integer, String> books = new HashMap<>();
-        for (User user : users) {
-            books.put(user.getId(), user.getBook());
-        }
-        return books;
+        return users;
     }
 
     @Override
