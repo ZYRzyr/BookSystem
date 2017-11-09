@@ -4,12 +4,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-@Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "book"})})
+@Entity //表示该类是一个实体类，由于之前的配置中写了 ddl-auto，jpa会将类名作为表名自动生成表
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "book"})})//表示同一行name和book作为唯一约束
 public class User implements Serializable {
 
-    @Id
-    @GeneratedValue
+    @Id   //主键约束
+    @GeneratedValue  //自增
     private Integer id;
 
     @NotNull
