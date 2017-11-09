@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<style type="text/css">
+        div,span,font,a,td{font-size:13px;}
+        table{border-collapse:collapse; border-spacing:0; border-left:1px solid #aaa; border-top:1px solid #aaa; background:#efefef;}
+        th{border-right:1px solid #888; border-bottom:1px solid #888; padding:3px 15px; text-align:center; font-weight:bold; background:#ccc; font-size:13px;}
+        td{width:100px; height:40px; border-right:1px solid #888; border-bottom:1px solid #888; padding:3px 15px; text-align:center; color:#3C3C3C;}
+    </style>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script type="text/javascript">
+        var base = "http://localhost:8081/";
+        var url_add = base + "add";
+        var url_query = base + "show";
+        var url_delete = base + "delete";
+        var url_modify = base + "modify";
+
+        function add() {
+            var name = $("#name_add").val();
+            var book = $("#book").val();
+            var json = {
+                "name":name,
+                "book":book
+            };
+            $.ajax({
+            	url : url_add,
+            	type : "POST",
+            	data : json,
+            	dataType : "json",
+            	success : function(data) {
+            		$("#result_add").text(name + "-" + book + " 添加成功！");
+           		},
+           		error : function(error) {
+           			var responseText = eval("(" + error.responseText + ")");
+            		$("#result_add").text(responseText.message);
+         	    }
+            });
+        };
+
+        function query() {
+            var name = $("#name_query").val();
+            var json = {
+                "name":name
+            };
+
+            $.ajax({
+            	url : url_query,
+            	type : "GET",
+            	data : json,
+            	dataType : "json",
+            	success : function(data) {
+            		$("#result_query_table").html("");
+            		$("#result_query_error").html("");
+            		for (var i in data) {
+            			$("#result_query_table").append("<tr><td>" + data[i].book + "</td><td>"+"<button type=\"button\" onclick=\"deleteBook(" + data[i].id + ")\">删除</button></td></tr>");
+            		}
+           		},
+
+           		error : function(error) {
+           			$("#result_query_table").html("");
+            		$("#result_query_error").html("");
+           			var responseText = eval("(" + error.responseText + ")");
+            		$("#result_query_error").text(responseText.message);
+         	    }
+            });
+        };
+
+        function deleteBook(i) {
+        	var json = {
+                "id" : i,
+                _method: 'DELETE'
+            };
+
+            $.ajax({
+            	url : url_delete,
+            	type : "POST",
+            	data : json,
+            	dataType : "json",
+            	success : function() {
+            		$("#result_delete").text("删除成功!");
+            		query();
+           		},
+           		error : function(error) {
+           			var responseText = eval("(" + error.responseText + ")");
+            		$("#result_delete").text(responseText.message);
+         	    }
+            });
+        };
+
+        $(document).ready(function() {
+        	$("#name_query").focus(function() {
+        		$("#result_delete").html("");
+        	});
+        })
+
+        function modify() {
+        	var originName = $("#originName").val();
+        	var newName = $("#newName").val();
+        	var json = {
+        		"originName" : originName,
+        		"newName" : newName
+        	};
+
+        	$.ajax({
+            	url : url_modify,
+            	type : "PUT",
+            	data : json,
+            	dataType : "json",
+            	success : function() {
+            		$("#result_modify").text("修改成功!");
+           		},
+           		error : function(error) {
+           			var responseText = eval("(" + error.responseText + ")");
+            		$("#result_modify").text(responseText.message);
+         	    }
+            });
+        }
+    </script>
+    <meta charset="UTF-8">
+    <title>Book</title>
+</head>
+<body>
+为用户添加书籍：<br/>
+名字：<input type="text" id="name_add"><br/>
+书籍：<input type="text" id="book"><br/>
+<button type="button" onclick="add()">添加</button>
+<p id="result_add"></p><br/>
+<br/>
+<br/>
+查询用户拥有的书籍：<br/>
+姓名:<input type="text" id="name_query"><br/><input type="hidden" id="name_query_hidden"/>
+<button type="button" onclick="query()">查询</button>
+<p id="result_query_error"></p><br/>
+<table id="result_query_table">
+</table><br/>
+<p id="result_delete"></p><br/>
+<br/>
+<br/>
+修改用户名:<br/>
+原名:<input type="text" id="originName"><br/>
+新名:<input type="text" id="newName"><br/>
+<button type="button" onclick="modify()">修改</button>
+<p id="result_modify"></p><br/>
+</body>
+</html>
